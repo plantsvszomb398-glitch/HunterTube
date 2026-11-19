@@ -29,11 +29,18 @@ struct ContentView: View {
             VStack(spacing: 0) {
                 header
                 if visibleVideos.isEmpty {
-                    ContentUnavailableView(
-                        showPrivate ? "Private folder is empty" : "Your library is empty",
-                        systemImage: "play.rectangle.on.rectangle",
-                        description: Text("Import personal video files to build your offline library.")
-                    )
+                    VStack(spacing: 16) {
+                        Image(systemName: "play.rectangle.on.rectangle")
+                            .font(.system(size: 56))
+                            .foregroundStyle(.secondary)
+                        Text(showPrivate ? "Private folder is empty" : "Your library is empty")
+                            .font(.title2.bold())
+                        Text("Import personal video files to build your offline library.")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
                     .frame(maxHeight: .infinity)
                 } else {
                     List {
@@ -247,8 +254,8 @@ struct VideoPlayerScreen: View {
                         Text("2×").tag(2.0)
                     }
                     .pickerStyle(.menu)
-                    .onChange(of: speed) { _, value in
-                        player?.rate = Float(value)
+                    .onChange(of: speed) { newValue in
+                        player?.rate = Float(newValue)
                     }
                 }
                 Spacer()
